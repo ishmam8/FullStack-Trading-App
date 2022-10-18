@@ -3,6 +3,7 @@ import sqlite3
 import config
 import alpaca_trade_api as tradeapi
 from alpaca_trade_api.rest import TimeFrame
+from datetime import date
 
 connection = sqlite3.connect(config.DB_FILE)
 
@@ -33,21 +34,23 @@ api = tradeapi.REST(config.API_KEY, config.API_SECRET,
 
 chunk_size = 200
 for i in range(0, len(symbols), chunk_size):
-
+    curr_date = str(date.today())
+    print(curr_date)
     symbol_chunk = symbols[i:i+chunk_size]
     try:
         barsets = api.get_bars(symbol_chunk, TimeFrame.Day,
-                               "2022-01-01", "2022-08-09")
+                               "2022-01-01")
         # print(barsets)
     except Exception as e:
         print("crypto", symbol_chunk)
 
     unique = []
+    print(barsets)
     for symbol in barsets:
 
         if len(unique) == 0 or unique[-1] != symbol.S:
             stock_id = stock_dict[symbol.S]
-            # print(f"processing symbol {symbol.S}")
+            print(f"processing symbol {symbol.S}")
             # print(unique)
             unique.append(symbol.S)
 
