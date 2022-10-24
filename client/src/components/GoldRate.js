@@ -3,7 +3,7 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import  {update1, update2} from '../goldPrice/actions'
 import { useState, useEffect } from 'react';
-import store from '../goldPrice/combineT12';
+import { persistor, store } from '../goldPrice/combineT12';
 import {counterT1 } from '../goldPrice/reducers';
 
 export default function GoldRate () {
@@ -22,19 +22,24 @@ export default function GoldRate () {
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        // alert(`The amount is: ${amount}`)
         console.log(amount)
         console.log("Counter value inside handlesubmit b/ dispatch", counter)
-        dispatch(update1({amount}))
+        dispatch(update1(amount))
     }
 
-    console.log("Counter value OUTSIDE handlesubmit", {counter})
+    // let goldRate = counter.map(function(val){
+    //     return `${val.amount}`;
+    // })
+    console.log("Counter value OUTSIDE handlesubmit", counter.amount.amount)
+    // const valueGold = JSON.parse(counter)
+    //document.getElementById("demo").innerHTML = counter.amount.amount
 
     return (
         <div className="gold-rate-updates">
-            <h2 className="h2tag" style={{textAlign: 'center'}}> 
-            Today's Price {counter === 0 ? counter : counter.amount.amount} 
+            <h2 className="h2tag" style={{textAlign: 'center'}} id="demo"> 
+                Today's Price {counter.amount.amount}
             </h2>
+            {/* <script>document.getElementById("demo").innerHTML = counter.amount</script> */}
             <form onSubmit={handleSubmit}>
                 <input 
                     type="text" 

@@ -5,7 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
-import store from './goldPrice/combineT12';
+import { persistor, store } from './goldPrice/combineT12';
+import { PersistGate } from 'redux-persist/integration/react';
 
 // console.log("getting state handlesubmit",store.getState())
 
@@ -13,7 +14,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <App /> 
+    </PersistGate>
   </Provider>
   </BrowserRouter>
 );
